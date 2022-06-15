@@ -1,0 +1,25 @@
+<table class="table">   
+ <% @tasks.each do |task| %>
+  <tbody>
+    <% if task.completed %>
+      <tr>
+        <th scope="row"><%= @tasks.find_index(task) + 1  %></th>
+        <td ><%= task.name %></td>
+        <td><%= link_to 'Edit task', edit_plan_task_path(@plan, task) %></td>
+        <td><%= link_to 'Destroy task', [@plan,task], method: :delete, data: {turbo_method: :delete, turbo_confirm: 'Sure?'} %></td>
+      </tr>
+
+    <%else%>
+
+     <tr>
+        <th scope="row"><%= @tasks.find_index(task) + 1  %></th>
+        <td ><%= task.name %></td>
+        <td><%= link_to 'Edit task', edit_plan_task_path(@plan, task) %></td>
+        <td><%= link_to 'Destroy task', [@plan,task], method: :delete, data: {turbo_method: :delete, turbo_confirm: 'Sure?'} %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+    <%end%>
+
+</table>

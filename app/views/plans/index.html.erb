@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<% if user_signed_in? %>
+<body>
+   <%=render partial: 'plans'%>
+    <%= yield %>
+</body>
+<%= link_to "New plan", new_plan_path %>
+<%else%>
+<p class='title'>please log in to create plans</p>
+<% end %>
+
+

@@ -1,0 +1,13 @@
+<table class="table">   
+  <tbody>
+  <% @plans.each do |plan| %>
+  <%if plan.user_id == current_user.id%>
+   <tr>
+     <th scope="row"><%= @plans.find_index(plan) + 1  %></th>
+     <td> <%= link_to plan.title, plan_tasks_path(plan) %> </td>
+     <td><%= link_to 'Destroy task', @plan, method: :delete, data: {turbo_method: :delete, turbo_confirm: 'Sure?'} %></td>
+     </tr>
+    <% end%>
+  <% end %>
+  </tbody>
+  </table>

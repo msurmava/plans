@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<% for task in @plan.tasks %>
+    <ul>
+      <li><%= task.name %></li>
+  </ul>
+<% end %>
+
+<div>
+  <%= link_to "Edit this task", edit_plan_task_path(@plan, @task) %> |
+  <%= link_to 'Add task', plan_tasks_path(@plan) %> | 
+  <%= link_to "Back to tasks", plan_tasks_path(@plan) %>
+  <%= button_to "Destroy this task", @tasks, method: :delete, form: {data: {turbo_confirm: 'Are you sure?'}}  %>
+</div>
+
