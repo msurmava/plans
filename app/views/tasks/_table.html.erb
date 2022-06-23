@@ -1,6 +1,6 @@
 <table class="table">  
 
- <% @tasks.order('tasks.completed ASC').each do |task| %>
+ <% @tasks.order('tasks.created_at DESC').each do |task| %>
   <tbody> 
    <tr style="<%='background-color: #dff7e3;' if task.completed %>">
         <td style= 'color: black;'>
