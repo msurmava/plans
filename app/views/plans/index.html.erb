@@ -6,6 +6,9 @@
     <%= yield %>
 </body>
 <%= link_to "New plan", new_plan_path %>
+    <div class="digg_pagination center">
+      <%= will_paginate @tasks%>
+    </div>
 <%else%>
 <p class='title'>please log in to create plans</p>
 <% end %>

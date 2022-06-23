@@ -1,0 +1,10 @@
+<table class='stats'>
+  <tbody>
+  <%if @plan.tasks.exists?%>
+      <% @level=((@plan.tasks.where(completed: true).count)*100 )/@plan.tasks.count%>
+    <tr> <td> <%= "completed:#{@plan.tasks.where(completed: true).count}"%><td> </tr>
+    <tr> <td> <%= "tasks left:#{@plan.tasks.where(completed: false).count}"%><td> </tr>
+    <tr> <td> <%= "current progress: #{@level}%" %> <td> </tr>
+    <%end%>
+  </tbody>
+</table>

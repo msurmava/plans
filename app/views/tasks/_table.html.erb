@@ -1,25 +1,56 @@
-<table class="table">   
- <% @tasks.each do |task| %>
-  <tbody>
+<table class="table">  
+
+ <% @tasks.order('tasks.completed ASC').each do |task| %>
+  <tbody> 
+   <tr style="<%='background-color: #dff7e3;' if task.completed %>">
+        <td style= 'color: black;'>
+        <% if task.details != nil && task.details != '' %>
+        <%= link_to task.name.capitalize, plan_task_path(@plan, task), {:class => "btn" } %>
+        <% else %>
+        <span style = 'margin: 10px;'>
+        <%= task.name.capitalize %>
+        <span>
+        <%end%>
+        </td>
+        <td><%= link_to 'Edit task', edit_plan_task_path(@plan, task),{style: 'color: black;', :class => "btn btn-outline-warning" } %></td>
+        <td><%= link_to 'Destroy task', [@plan,task], method: :delete, data: {turbo_method: :delete, turbo_confirm: 'Sure?'}, style: 'color: black;', class: 'btn btn-outline-danger' %></td>     
+
     <% if task.completed %>
-      <tr>
-        <th scope="row"><%= @tasks.find_index(task) + 1  %></th>
-        <td ><%= task.name %></td>
-        <td><%= link_to 'Edit task', edit_plan_task_path(@plan, task) %></td>
-        <td><%= link_to 'Destroy task', [@plan,task], method: :delete, data: {turbo_method: :delete, turbo_confirm: 'Sure?'} %></td>
-      </tr>
-
+        <td> <center>
+        <%= form_with(model: [@plan,task]) do |f| %>
+        <%= f.text_field :description, type: 'hidden' %>
+        <%= f.check_box :completed, :checked => false, :style => 'visibility: hidden' %>
+        <%= f.submit 'uncross', class: 'btn btn-outline-secondary btn'%>
+        <% end %>
+        </center></td>
     <%else%>
-
-     <tr>
-        <th scope="row"><%= @tasks.find_index(task) + 1  %></th>
-        <td ><%= task.name %></td>
-        <td><%= link_to 'Edit task', edit_plan_task_path(@plan, task) %></td>
-        <td><%= link_to 'Destroy task', [@plan,task], method: :delete, data: {turbo_method: :delete, turbo_confirm: 'Sure?'} %></td>
+        <td>
+         <center>
+        <%= form_with(model: [@plan,task]) do |f| %>
+        <%= f.text_field :description, type: 'hidden' %>
+        <%= f.check_box :completed, :checked => true, :style => 'visibility: hidden' %>
+        <%= f.submit 'cross', class: 'btn btn-outline-secondary btn'%>
+        <% end %>
+        </center></td>
+          <% end %> 
       </tr>
-    <% end %>
-
+    <%end%>     
   </tbody>
-    <%end%>
-
 </table>
+  <div class="digg_pagination center">
+      <%= will_paginate @tasks%>
+  </div>
+
+<%if @plan.tasks.exists?%>
+      <% @level=((@plan.tasks.where(completed: true).count)*100 )/@plan.tasks.count%>
+
+<%if @level < 30%>
+<p>just begun? don't worry 'A journey of a thousand li starts beneath one's feet'</p>
+<%elsif @level >= 30 && @level < 60 %>
+<p>Keep going, you're somewhere in the middle</p>
+<%elsif @level<100%>
+<p>Little bit more, not much left!</p>
+<%else%>
+<p>good job! let's declare <%=link_to @plan.title, plan_path(@plan)%>  as completed </p>
+<%end%>
+<%end%>

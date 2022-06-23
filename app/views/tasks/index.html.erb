@@ -1,7 +1,16 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Tasks</h1>
+
+<%if @plan.tasks.count > 1 %>
+<%= "you have #{@plan.tasks.count} tasks for" %> <%=link_to @plan.title, plan_path(@plan)%>
+<%elsif @plan.tasks.count == 1%>
+<%= "you have #{@plan.tasks.count} task for" %> <%=link_to @plan.title, plan_path(@plan)%>
+<%else%>
+<%= "No tasks to show for #{@plan.title}" %>
+<%end%>
+<%= render partial: 'stats'%>
 
 <%= render partial: 'table'%>
-<%= link_to "New task", new_plan_task_path(@plan) %>
+<%= link_to "New task", new_plan_task_path(@plan) %>|
 <%= link_to "Back to plans", plans_path %>
+<br>

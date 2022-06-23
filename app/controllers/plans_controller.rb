@@ -3,7 +3,7 @@ class PlansController < ApplicationController
 
   # GET /plans or /plans.json
   def index
-    @plans = Plan.all
+    @plans = Plan.all.paginate(page: params[:page], per_page: 10)
   end
 
   # GET /plans/1 or /plans/1.json
@@ -40,7 +40,7 @@ class PlansController < ApplicationController
   def update
     respond_to do |format|
       if @plan.update(plan_params)
-        format.html { redirect_to plan_url(@plan), notice: "Plan was successfully updated." }
+        format.html { redirect_to plans_url(@plan), notice: "Plan was successfully updated." }
         format.json { render :show, status: :ok, location: @plan }
       else
         format.html { render :edit, status: :unprocessable_entity }

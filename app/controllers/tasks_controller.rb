@@ -4,7 +4,7 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = @plan.tasks
+    @tasks = @plan.tasks.paginate(page: params[:page], per_page: 5)
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -39,7 +39,7 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to plan_task_path(@plan), notice: "Task was successfully updated." }
+        format.html { redirect_to plan_tasks_path(@plan), notice: "Task was successfully updated." }
         format.json { render :show, status: :ok, location: @task }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -71,6 +71,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :completed, :plan_id)
+      params.require(:task).permit(:name, :completed, :details, :plan_id)
     end
 end
